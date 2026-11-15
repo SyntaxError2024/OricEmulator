@@ -1,82 +1,61 @@
 ### Émulateur Oric
 
-Léger et rapide (en C gdi ou directx).
-N'est pas fait pour émuler 100% de l'Oric. Mais peut lancer la majorité des jeux et des programmes.
-Les démos marchent aussi (il y a peu de bidouille hardware sur Oric)
+Léger et rapide (en C, avec GDI ou DirectX).
+N'est pas conçu pour émuler 100 % de l'Oric, mais il peut lancer la majorité des jeux et des programmes.
+Les démos fonctionnent aussi (il y a peu de bidouillage matériel sur l'Oric).
 
-Il y a un accélération K7 avec démarrage automatique (bien pratique pour tester des jeux vite fait)
-À lancer via l'explorateur ou faire un glisser déposer sur la fenêtre.
+Il existe une accélération K7 avec démarrage automatique (pratique pour tester des jeux rapidement).
+Peut lancer des jeux via l'explorateur de fichiers avec un glisser-déposer sur la fenêtre.
 
-Possibilité de changer le clavier Qwerty ou Azerty. Certain jeux utilise la touche physique d'autre logiciel.
+Possibilité de changer le clavier QWERTY ou AZERTY. Certains jeux utilisent la touche physique d'un autre logiciel.
 
-Sur Oric les touches de jeux c'est folkore. Donc possibilité de redéfinir les touches pour certains jeux (config enregistré dans le dossier du jeu)
+# Compilation
 
-Il y aussi un accélération du CPU. Soit "SYNC" qui respecte l'interruption. Donc la musique, le clavier restent synchro (sous basic par exemple ou les jeux qui se régle sur les IRQ).
-L'autre c'est accélération total de l'Oric. Pratique pour accélérer les parties un peu longues des jeux (il y a en tellement...)
+Installer mingw64 [lien](https://github.com/niXman/mingw-builds-binaries/releases) (compilateur C open source).
+Lancer le fichier build.bat.
+Il va compiler l'émulateur et le lancer.
+Ou alors lancer directement le fichier Oric.exe précompilé.
+(Pourquoi c'est aussi compliqué de trouver ce foutu compilateur sur le net ?!?! Il y a 3000 versions)
 
-# todo
+# À faire / TODO
 
-toggle pause
+Sur Oric, les touches de jeu sont parfois folkloriques. Il est donc possible de redéfinir les touches pour certains jeux (configuration enregistrée dans le dossier du jeu).
+
 redéfinition des touches
 utilisation de la manette + configuration par jeu/global
-afficher un message en bas de la fenêtre lors d'un changement speed/snapshot/filter etc
-reprendre le focus quand on glisse un fichier (chiant)
+afficher un message en bas de la fenêtre lors d'un changement de vitesse/capture/filtre, etc.
+reprendre le focus quand on glisse un fichier (bug)
 touche pour redimensionner x1 x2 x3 x4
-toogle 4:3 1:1
-screenshots
-snapshot load/save
+toggle 4:3 / 1:1
 
-# done
+# Fonctionnalités
 
-rajouter plusieurs type de lissage eagle etc...
-turbo qui conserve la vitesse des interruptions d'origine
-dx11 (shaders ?) moins de cpu
-redimensionnement de la fenêtre réglé sur la taille
-menu clic droit pour les presets de taille ou les toogles fullscreen/scanline/lissage
+shader pour émuler un écran CRT et plusieurs types de lissage (le meilleur étant le dernier)
+turbo CPU qui conserve la vitesse des interruptions d'origine
+DirectX 11 ou GDI (léger, mais consomme du CPU pour les filtres)
 
-# corrigé
+# Raccourcis
 
-les dsk marchent pas
-les textes doubles sont inversés (ligne paire pas impaire)
-les effets ça bouffe le CPU parce que c'est pas matériel donc dx+shaders
+# ROMs (il y a un menu qui affiche les ROM du dossier roms)
 
-# hotkey
+atmos & oric-1 : ROM d'origine
 
-F1 Aide (messagebox simple)
-F2 Explorateur de fichiers
+slowboot : l'Oric vérifie la mémoire au démarrage (lent)
+fastboot : vérification de la mémoire désactivée ; démarrage immédiat de l'Oric
+qwerty/azerty : agencement du clavier uniquement sous Basic/système
+sign/number : première rangée en AZERTY, chiffres ou signes (comme sur un PC)
+accents : la police de l'Oric contient des accents comme sur le téléstrat, identique à l'Amstrad CPC
+*** attention, certaines ROM cassent la compatibilité avec les jeux ***
 
-XX CRT
-XX Filters
-XX Rembobinner la K7
-
-XX Turbo sync
-XX Turbo
-
-XX stats
-
-XX Soft reset
-XX Hard reset
-
-# roms (il y a un menu qui affiche les roms du dossier roms)
-
-atmos & oric1 : rom originelles
-
-slowboot : l'oric vérifie la mémoire au démarrage (lent)
-fastboot : vérification de la mémoire désactivé. démarrage immédiat de l'oric
-qwerty/azerty : agencement clavier uniquement sous basic/système.
-sign/number : première rangée en azerty chiffre ou signes (comme sur un PC)
-accents : la police de l'oric contient des accents comme sur le téléstrat. identique à l'amstrad cpc
-*** attention certaine rom casse la compatibilité avec les jeux ***
-
-# tapes
+# tapes/ et dsk/
 
 Jeux pour tester l'émulateur.
 
-# Usage
+# Utilisation
 
-Lancer le fichier Oric.exe (rien d'autre à installer)
-Tous les réglages sont enregistré dans le fichiers settings.ini.
+Lancer le fichier Oric.exe (rien d'autre à installer).
+Tous les réglages sont enregistrés dans le fichier settings.ini.
 
-Par défaut l'émulateur démarre sur l'explorateur de fichier.
-Si une rom est selectionnée elle sera par défaut pour les prochains démarrages.
-Si c'est une K7 ou un Disquette elle démarre automatiquement.
+Par défaut, l'émulateur démarre sur l'explorateur de fichiers (ESC pour le quitter).
+Si une ROM est sélectionnée, elle sera utilisée par défaut pour les prochains démarrages.
+Si c'est une K7 ou une disquette, elle démarre automatiquement.
