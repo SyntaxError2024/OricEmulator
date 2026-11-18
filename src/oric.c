@@ -362,12 +362,16 @@ static void ay_write(int reg, u8 v)
     if (reg == 13) env_reset();
 }
 static u8 ay_read(int reg) { return ay.r[reg & 15]; }
+/* Comme la vraie puce, l'action (latch d'adresse ou ecriture) a lieu quand on QUITTE l'etat de controle
+   (front descendant de BC1/BDIR), avec la valeur presente sur le bus a ce moment-la. La ROM place la donnee
+   avant d'entrer en ecriture ; d'autres programmes (ex. Zorgon's Revenge) la placent apres : les deux marchent. */
 static void ay_lines(int bc1, int bdir, u8 bus)
 {
-    if (bc1 == ay.bc1 && bdir == ay.bdir) return;
+    int ob = ay.bc1, od = ay.bdir;
+    if (bc1 == ob && bdir == od) return;
+    if (od && ob) ay.addr = bus & 15;                 /* sortie de "latch d'adresse"  */
+    else if (od && !ob) ay_write(ay.addr, bus);       /* sortie de "ecriture"         */
     ay.bc1 = bc1; ay.bdir = bdir;
-    if (bdir && bc1) ay.addr = bus & 15;
-    else if (bdir && !bc1) ay_write(ay.addr, bus);
 }
 static void ay_reset(void)
 {
@@ -3760,6 +3764,15 @@ int main(void)
     via_write(1, 0x0F); via_write(12, 0xFD);   /* ecriture donnee = 15 */
     via_write(12, 0xDD);
     CHECK(ay.r[8] == 0x0F, "ecriture AY reg 8 via VIA");
+
+    /* AY : sequence "donnee apres l'entree en ecriture" (routine du jeu Zorgon's Revenge) */
+    via_reset(); ay_reset();
+    via_write(3, 0xFF); via_write(2, 0xFF);
+    via_write(12, 0xFF); via_write(1, 0x08); via_write(12, 0xFD);   /* latch ; adresse 8 sur le bus ; entree en ecriture */
+    via_write(1, 0x0B); via_write(12, 0xDD);                          /* donnee 0B apres l'entree ; sortie -> ecriture */
+    CHECK(ay.r[8] == 0x0B, "ecriture AY avec donnee placee apres l'entree en ecriture (R8 = 0B)");
+    via_write(12, 0xFF); via_write(1, 0x08); via_write(12, 0xFD); via_write(1, 0x00); via_write(12, 0xDD);
+    CHECK(ay.r[8] == 0x00, "ecriture AY : volume remis a 0 (le son s'arrete)");
 
     /* clavier : touche A, ligne 6, masque 0x20 */
     via_reset(); ay_reset();

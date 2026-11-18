@@ -1,7 +1,7 @@
 CC      := gcc
 WINDRES := windres
 
-CFLAGS  := -Wall -Wextra -O2 -UUNICODE -U_UNICODE
+CFLAGS  := -O2 -UUNICODE -U_UNICODE
 LDFLAGS := -mwindows -s
 LDLIBS  := -lgdi32 -lwinmm -lshell32 -luser32
 
