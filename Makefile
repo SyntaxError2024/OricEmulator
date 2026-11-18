@@ -16,13 +16,17 @@ RESOBJ  := $(OBJDIR)/res.o
 
 all: $(TARGET)
 
-$(TARGET): $(OBJECTS)
+$(TARGET): $(OBJECTS) $(RESOBJ)
 	-taskkill /f /im $(TARGET) >NUL 2>&1
 	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 $(OBJDIR)/%.o: src/%.c
 	-@if not exist "$(OBJDIR)" mkdir "$(OBJDIR)"
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$(RESOBJ): res/res.rc
+	-@if not exist "$(OBJDIR)" mkdir "$(OBJDIR)"
+	$(WINDRES) $< $@
 
 clean:
 	-@if exist "$(OBJDIR)" rmdir /S /Q "$(OBJDIR)"
