@@ -6,8 +6,6 @@ A lightweight, high-performance Oric-1 and Oric Atmos emulator written in pure C
 
 ## 📸 Screenshots
 
-*(Placeholder: Place your screenshots in a `docs/screenshots/` folder)*
-
 | File Explorer / ROM Menu | Gameplay|
 | :----------------------: | :-----------------------------------: |
 | ![Explorer](docs/screenshots/explorer.png) | ![Gameplay](docs/screenshots/gameplay.png) |
